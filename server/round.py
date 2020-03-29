@@ -1,6 +1,10 @@
 '''
 Single Round Class Script
 '''
+import time as t
+from _thread import start_new_thread
+from .game import Game
+from .chat import Chat
 
 class Round(object):
     def __init__(self, word, player_drawing, players):
@@ -15,7 +19,19 @@ class Round(object):
         self.player_guessed = []
         self.skips = 0
         self.player_scores = {player:0 for player in players}
-        self.time = 0
+        self.time = 75
+        self.chat = Chat(self)
+        start_new_thread(self.time_thread, ())
+    
+    def time_thread(self):
+        """
+        runs in thread to keep track of time
+        :return None
+        """
+        while self.time > 0:
+            t.sleep(1)
+            self.time -= 1
+        self.end_round("Time is up!")
     
     def guess(self, player, wrd):
         """
@@ -43,9 +59,9 @@ class Round(object):
             self.player_guessed.remove(player)
         
         if player == self.player_drawing:
-            self.end_round()
+            self.end_round("Drawing player leaves")
     
-    def end_round(self):
+    def end_round(self, msg):
         # TODO: implement end round functions
         pass
 
