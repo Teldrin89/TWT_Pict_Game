@@ -20,9 +20,23 @@ class Round(object):
         self.skips = 0
         self.player_scores = {player:0 for player in players}
         self.time = 75
+        self.players = players
         self.chat = Chat(self)
         start_new_thread(self.time_thread, ())
     
+    def skip(self):
+        """
+        return true if round skipped threshold met
+        :return Bool
+        """
+        self.skips += 1
+        if self.skips > len(self.players) - 2:
+            self.skips = 0
+            return True
+        
+        return False
+
+
     def time_thread(self):
         """
         runs in thread to keep track of time
