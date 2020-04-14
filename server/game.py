@@ -20,6 +20,7 @@ class Game(object):
         self.board = None
         self.player_draw_ind = 0
         self.start_new_round()
+        self.create_board()
 
     def start_new_round(self):
         """
@@ -36,6 +37,9 @@ class Game(object):
             self.round.end_round("Round ended")
             self.end_game()
     
+    def create_board(self):
+        self.board = Board()
+
     def player_guess(self, player, guess):
         """
         makes the player guess the word
@@ -69,9 +73,10 @@ class Game(object):
 
     def round_ended(self):
         """
-
+        If the round ends call this
+        :return None
         """
-        pass
+        self.start_new_round()
 
     def update_board(self, x, y, color):
         pass
