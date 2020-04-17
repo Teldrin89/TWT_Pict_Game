@@ -34,6 +34,7 @@ We use [SemVer](http://semver.org/) for versioning.
 ## Acknowledgments
 
 * This project is mainly based of the stream from Tech With Tim (https://www.youtube.com/watch?v=wDIQ17T3sRk&t=369s)
+* Words list taken from here: https://hobbylark.com/party-games/pictionary-words
 * Special thanks to other people that inspire me to work on Python/Web Dev projects:
     * Brad Traversy
     * Sentdex
