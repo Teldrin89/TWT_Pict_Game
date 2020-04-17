@@ -7,20 +7,21 @@ from .round import Round
 
 class Game(object):
 
-    def __init__(self, id, players):
+    def __init__(self, id, players, thread):
         """
         init game with min of 2 player active
         :param id: int
         :param players: Player[]
+        :param thread: Thread
         """
         self.id = id
-        self.players = []
+        self.players = players
         self.words_used = []
         self.round = None
-        self.board = None
+        self.board = Board()
         self.player_draw_ind = 0
+        self.connected_thread = thread
         self.start_new_round()
-        self.create_board()
 
     def start_new_round(self):
         """
@@ -30,15 +31,19 @@ class Game(object):
         self.round = Round(
             self.get_word(), 
             self.players[self.player_draw_ind], 
-            self.players)
+            self.players,
+            self)
         self.player_draw_ind += 1
 
         if self.player_draw_ind >= len(self.players):
             self.round.end_round("Round ended")
             self.end_game()
     
-    def create_board(self):
-        self.board = Board()
+    # def create_board(self):
+    #     """
+    #     creats new board
+    #     """
+    #     self.board = Board()
 
     def player_guess(self, player, guess):
         """
@@ -47,7 +52,7 @@ class Game(object):
         :param guess: str
         :return: bool
         """
-        pass
+        return self.round.guess(player, guess)
 
     def player_disconnected(self, player):
         """
@@ -77,11 +82,26 @@ class Game(object):
         :return None
         """
         self.start_new_round()
+        self.board.clear()
 
     def update_board(self, x, y, color):
-        pass
+        """
+        calls update method on board
+        :param x: int
+        :param y: int
+        :param color: (int, int, int)
+        :return: None
+        """
+        if not self.board:
+            raise Exception("No board created")
+        self.board.update(x, y, color)
 
     def end_game(self):
+        """
+        ends the game
+        :return:
+        """
+        # TODO: implement
         pass
     
     def get_word(self):
